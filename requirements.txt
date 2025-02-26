@@ -5,3 +5,4 @@ numpy
 pandas
 gunicorn
 mysql-connector-python  # If using MySQL
+python-dotenv
