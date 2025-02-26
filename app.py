@@ -46,13 +46,19 @@ if not os.path.exists(tflite_model_path):
         print(f"❌ Error converting model to TFLite: {e}")
         exit(1)
 
-# Load TFLite model
+import tensorflow.lite as tflite  # ✅ Import TensorFlow Lite
+
 def load_tflite_model():
-    interpreter = tflite.Interpreter(model_path=tflite_model_path)
-    interpreter.allocate_tensors()
+    """Load and return a TensorFlow Lite model interpreter."""
+    global interpreter  # Optional: If using it in multiple places
+    interpreter = tflite.Interpreter(model_path=tflite_model_path)  # ✅ Correct
+    interpreter.allocate_tensors()  # ✅ Allocate tensors for inference
+    print("✅ TFLite model loaded successfully!")
     return interpreter
 
+# Load the TFLite model
 interpreter = load_tflite_model()
+
 print("TFLite model loaded successfully!")
 
 
@@ -63,10 +69,12 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Function to preprocess the image
 def preprocess_image(image, target_size=(224, 224)):
-    img = cv2.resize(image, target_size)
-    img = img / 255.0
-    img = np.expand_dims(img, axis=0)
+    img = cv2.resize(image, target_size)  # Resize image to match model input size
+    img = img / 255.0  # Normalize to [0,1] range
+    img = np.array(img, dtype=np.float32)  # ✅ Explicitly set data type to float32
+    img = np.expand_dims(img, axis=0)  # Add batch dimension
     return img
+
 
 # Function to analyze video and make predictions
 # Function to analyze video and make predictions using TFLite model
@@ -84,7 +92,8 @@ def analyze_video(video_path):
         if not ret:
             break
 
-        image = preprocess_image(frame)
+        image = np.array(preprocess_image(frame), dtype=np.float32)  # ✅ Explicit conversion
+
 
         # Run inference
         interpreter.set_tensor(input_details[0]['index'], image)
