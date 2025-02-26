@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Video Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="data:,">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Lobster&family=Great+Vibes&family=Dancing+Script&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!-- Logo -->
+        <a href="#" class="logo">
+            <img src="{{ url_for('static', filename='images/dflogo.jpg') }}" alt="Logo" class="nav-logo">
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav id="menu" class="nav">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#tutorial" class="nav-link">Tutorial</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#feedback" class="nav-link">Feedback</a>
+        </nav>
+
+        <!-- Right Side: Dark Mode + Mobile Menu -->
+        <div class="right-side">
+            
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="mobile-menu-btn">☰</button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="#home" class="mobile-nav-link">Home</a>
+            <a href="#tutorial" class="mobile-nav-link">Tutorial</a>
+            <a href="#about" class="mobile-nav-link">About</a>
+            <a href="#feedback" class="mobile-nav-link">Feedback</a>
+        </div>
+    </header>
+    <!-- Hero Section -->
+<section id="home" class="hero-section">
+    <!-- Background Overlay -->
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <h2 class="hero-title italic font-[cursive]">Deepfake Video Detection</h2>
+        <p class="hero-subtitle italic" style="font-family: 'Pacifico', cursive;">
+            Don't fake it, verify it.
+        </p>        <a href="#uploadForm" class="hero-button">Get Started</a>
+    </div>
+</section>
+
+<!-- Images Section -->
+<section class="py-10">
+    <div id="carouselId" class="carousel slide custom-carousel" data-bs-ride="carousel" data-aos="fade-up">
+
+        <!-- Carousel Items -->
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="../static/images/df1.png" class="carousel-image" alt="First slide">
+            </div>
+            <div class="carousel-item">
+                <img src="../static/images/df2.png" class="carousel-image" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+                <img src="../static/images/df3.png" class="carousel-image" alt="Third slide">
+            </div>
+            <div class="carousel-item">
+                <img src="../static/images/df4.jpg" class="carousel-image" alt="fourth slide">
+            </div>
+            <div class="carousel-item">
+                <img src="../static/images/df5.jpg" class="carousel-image" alt="fifth slide">
+            </div>
+            <div class="carousel-item">
+                <img src="../static/images/df6.jpg" class="carousel-image" alt="sixth slide">
+            </div>
+            <div class="carousel-item">
+                <img src="../static/images/df7.jpg" class="carousel-image" alt="seventh slide">
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
+</section>
+<!-- Video Upload Section -->
+<section id="upload-section" class="p-10 text-center" data-aos="fade-up">
+    <h2 class="text-3xl font-bold">Upload Video</h2>
+
+    <form id="uploadForm" action="/predict" method="POST" enctype="multipart/form-data">
+        <label for="file" class="upload-box">
+            <span>Drag & Drop or Click to Upload</span>
+            <input type="file" name="file" id="file" accept="video/*" required>
+        </label>
+        <p class="text-sm text-blue-800 mt-2">
+            ℹ️ To ensure optimal processing, we recommend uploading videos under 30 seconds. Longer videos may take additional time as they need to be divided into frames for analysis.
+        </p>
+        
+        <button type="submit" class="upload-button">Upload and Predict</button>
+    </form>
+
+    <!-- Processing Animation -->
+    <div id="processing" class="hidden processing-box">
+        <p>Processing your video, please wait...</p>
+    </div>
+
+    <!-- Result Display -->
+    <div id="result" class="hidden result-box">
+        <h3 class="text-2xl font-bold">Detection Result</h3>
+        
+        <!-- ✅ Added this div for displaying the prediction text -->
+        <div id="resultText" class="text-lg font-semibold text-white"></div> 
+        
+        <!-- ✅ Wrapped the canvas inside a div -->
+        <div class="chart-container">
+            <canvas id="resultChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</section>
+
+
+<!-- Tutorial Section -->
+<section id="tutorial" class="tutorial-section" data-aos="fade-up">
+    <div class="tutorial-image">
+        <img src="../static/images/dfprocess.png" class="image-animated">
+    </div>
+
+    <div class="tutorial-text">
+        <h2 class="text-gradient">How It Works</h2>
+        <style>
+            .text-gradient {
+                color: #9b57f6; /* Adjust to your theme */
+            }
+        </style>
+        <p>Our  deepfake detection model ensures authenticity by analyzing videos in three simple steps:</p>
+        <div class="tutorial-step">
+            <div class="icon blue"><i class="fas fa-upload"></i></div>
+            <p><strong>Step 1:</strong> Upload a video you want to verify.</p>
+        </div>
+    
+        <div class="tutorial-step">
+            <div class="icon purple"><i class="fas fa-brain"></i></div>
+            <p><strong>Step 2:</strong> Our DeepLearning Model carefully examines the video, detecting any signs of manipulation.</p>
+        </div>
+    
+        <div class="tutorial-step">
+            <div class="icon green"><i class="fas fa-check-circle"></i></div>
+            <p><strong>Step 3:</strong> Receive instant results, including an accuracy score .</p>
+        </div>
+    </div>
+    
+</section>
+<!-- About Section -->
+<section id="about" class="about-container" data-aos="fade-up">
+    <!-- Animated Image -->
+    <div class="about-image">
+        <img src="../static/images/dfabout.jpg" class="image-animated">
+    </div>
+
+    <!-- Text Content -->
+    <div class="about-text">
+        <h2 class="text-gradient">About Us</h2>
+        <p>
+            We are committed to <strong>fighting misinformation</strong> by providing state-of-the-art deepfake detection technology. 
+            Our mission is to ensure the authenticity of digital media and prevent the spread of manipulated content.
+        </p>
+
+        <!-- Callout Box -->
+        <div class="callout-box">
+            <p><i class="fas fa-shield-alt"></i> <strong>Trusted AI Technology</strong></p>
+            <p>We use cutting-edge deep learning models to detect AI-generated media.</p>
+        </div>
+    </div>
+</section>
+<!-- Review Section -->
+<section id="feedback" class="p-10 text-center bg-[#1a1c2c] rounded-lg shadow-lg" data-aos="fade-up">
+    <h2 class="text-4xl font-bold text-gradient mb-6">Leave a Review</h2>
+
+    <!-- Form Container -->
+    <div class="max-w-2xl mx-auto p-6 bg-[#222544] rounded-lg shadow-lg">
+        <form id="review-form">
+            <!-- Name Input -->
+            <input type="text" id="review-name" placeholder="Your Name" class="input-field" required>
+            
+            <!-- Email Input -->
+            <input type="email" id="review-email" placeholder="Your Email" class="input-field mt-4" required>
+            
+            <!-- Textarea with Character Counter -->
+            <textarea id="review-message" placeholder="Your Review" class="input-field mt-4 h-32 resize-none" maxlength="500" required></textarea>
+            <div id="feedbackResponse"></div>
+            <!-- Submit Button -->
+            <button id="submit-review" type="submit" class="mt-4 btn-primary text-white p-2 rounded-lg w-full transition duration-300 hover:bg-purple-600">
+                Submit Review
+            </button>
+        </form>
+
+        <!-- Success Message -->
+        <p id="success-message" class="hidden text-green-400 mt-4">Thank you for your feedback! 🎉</p>
+    </div>
+</section>
+<!-- Contact Section -->
+<section id="contact" class="p-10 text-center bg-[#1a1c2c] rounded-lg shadow-lg" data-aos="fade-up">
+    <h2 class="text-4xl font-bold text-gradient mb-6">Contact Us</h2>
+
+    <!-- Social Media Links -->
+<div class="mt-6 flex justify-center gap-6">
+    <a href="mailto:ummefathima30@gmail.com" target="_blank" class="social-icon" title="Email">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/new-post.png" alt="Email" class="w-8">
+    </a>
+    <a href="https://www.linkedin.com/in/umme-fathima-73124a26b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="social-icon" title="LinkedIn">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn" class="w-8">
+    </a>
+    <a href="https://github.com/Umme-Fathima" target="_blank" class="social-icon" title="GitHub">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/github.png" alt="GitHub" class="w-8">
+    </a>
+</div>
+
+</section>
+
+<!-- Footer Section -->
+<footer class="p-6 bg-[#1a1c2c] text-center text-gray-300">
+    <div class="container mx-auto">
+        <!-- Brand Name with Gradient -->
+        <h3 class="text-xl font-bold text-gradient">
+            © <span id="current-year"></span> Deepfake Verify
+        </h3>
+        <p class="text-sm mt-1">All rights reserved.</p>
+
+    </div>
+</footer>
+
+</footer>
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- External Scripts -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,437 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(145deg, #0a192f, #172a45);
+    color: #e0e6f1;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    transition: all 0.3s ease-in-out;
+}
+header {
+    background: linear-gradient(90deg, #0a192f, #1b3e68);
+    padding: 15px 30px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    position: relative;
+    border-bottom: 3px solid #0d1b2a;
+}
+/* Header content container */
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;  /* Needed for absolute positioning of slogan */
+    flex-wrap: nowrap; /* Allows elements to adjust on smaller screens */
+    padding: 10px 20px;
+    gap: 15px; /* Adds space between elements */
+}
+/* Adjusting Title */
+.header-content h1 {
+    font-family: 'Lora', cursive;
+    color: #ffffff;
+    font-size: clamp(2em, 5vw, 5em);
+    letter-spacing: 1.5px;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    margin-left: 20px;
+    text-align: center; /* Center align for better layout */
+}
+.header-content h1:hover {
+    color: #1b98e0;
+    transform: scale(1.05);
+}
+/* Slogan Styles below the title */
+.slogan {
+    font-family: 'Lobster', cursive;  /* Cursive font */
+    color: #e0e6f1;
+    font-size: 1.6em;  /* Increased font size */
+    font-style: italic;
+    text-align: right;
+    position: absolute;
+    bottom: -15px; /* Positions the slogan slightly below the title */
+    right: 50px; /* Positions the slogan towards the right */
+    letter-spacing: 2px;
+    transition: color 0.3s ease-in-out;
+}
+.slogan:hover {
+    color: #1b98e0;
+    transform: scale(1.05);
+}
+header h1, .banner h2, .container h2, .card h2 {
+    font-family: 'Lora', cursive;
+    color: #ffffff;
+    font-size: 2.5em;
+    letter-spacing: 2px;
+}
+header img {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+}
+/* Responsive Fix */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column; /* Stack logo and title */
+        align-items: center; /* Center everything */
+        text-align: center;
+    }
+
+    .header-content img {
+        width: 60px; /* Reduce logo size */
+        height: 60px;
+        margin-bottom: 10px; /* Space between logo and title */
+    }
+
+    .header-content h1 {
+        font-size: 2.5em; /* Reduce title size */
+        margin-left: 0; /* Remove margin to center it */
+    }
+}
+/* Adjust Navigation Styles */
+nav {
+    display: flex;
+    align-items: center; /* Vertically align items */
+    justify-content: center; /* Align items to the left */
+    gap: 20px;
+    padding: 10px;
+    background-color: #031c4f;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    animation: slideIn 1.5s;
+    box-shadow: 0 4px 10px rgba(74, 85, 216, 0.5);
+}
+nav a {
+    display: inline;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1em;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    white-space: nowrap;
+}
+nav a:hover {
+    color: #020202;
+    background: #1b98e0;
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+/* Adjusting Logo in Navigation */
+nav img.nav-logo {
+    width: 80px; /* Adjust size as per your preference */
+    height: 80px;
+    border-radius: 50%;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease-in-out;
+    margin-right: 20px; /* Space between logo and the nav items */
+}
+
+nav img.nav-logo:hover {
+    transform: rotate(30deg) scale(1.1);
+}
+/* Responsive Fix */
+@media (max-width: 786px) {
+    nav {
+        flex-wrap: nowrap; /* Prevents wrapping */
+        overflow-x: auto; /* Enables horizontal scrolling if needed */
+        justify-content: flex-start; /* Aligns items from the start */
+        padding: 10px;
+        scrollbar-width: none; /* Hides scrollbar in Firefox */
+    }
+
+    nav::-webkit-scrollbar {
+        display: none; /* Hides scrollbar in Chrome & Safari */
+    }
+
+    nav a {
+        font-size: 0.9em;
+        padding: 8px 12px;
+        flex-shrink: 0; /* Ensures items don’t shrink */
+    }
+}
+    nav a {
+        font-size: 0.8em;
+        padding: 6px 10px;
+        flex-shrink: 0; /* Prevent items from shrinking */
+    }
+/* Banner Section */
+.banner {
+    background: linear-gradient(135deg, #0a192f, #0c2442);
+    padding: 5vw;
+    text-align: center;
+    color: #ffffff;
+    animation: fadeInUp 2s ease-in-out;
+    z-index: 1;  /* Lower than .side-nav */
+}
+/* Banner Heading */
+.banner h2 {
+    font-size: clamp(1.5em, 4vw, 2.5em);
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    color: #1b98e0;
+
+}
+
+/* Banner Subheading */
+.banner p {
+    font-size: 1.3em;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+/* Slideshow Container */
+.slideshow-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 100%;
+    margin: 0 auto;
+}
+/* Image Slides */
+.mySlides {
+    position: relative;
+    width: clamp(300px, 80%, 700px);
+    height: clamp(200px, 50vw, 500px); /* Adjusted for rectangular size */
+    overflow: hidden;
+    border-radius: 15px;  /* Rounded corners for rectangular images */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* Image Style */
+.mySlides img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;  /* Rounded corners for images */
+    transition: transform 0.3s ease, box-shadow 0.3s ease-in-out;
+}
+/* Hover effect for images */
+.mySlides img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+.banner button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 15px;
+    font-size: 1.2em;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    z-index: 2;
+}
+.banner button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.2);
+}
+.banner button.prev {
+    left: 5px;
+}
+.banner button.next {
+    right:5px;
+}
+/* Content Containers */
+.container {
+    width: 60%;
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(145deg, #0e1536, #073a48);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 2s;
+}
+.container h2 {
+    color: #e0e0e0;
+    font-size: 2em;
+    margin-bottom: 15px;
+}
+/* Button Styles */
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #0d1b2a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+button:hover {
+    background-color: #1b98e0;
+    transform: translateY(-3px);
+}
+/* Card Section */
+.section-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 40px auto;
+    padding: 20px;
+    max-width: 90%;
+}
+.card {
+    background: linear-gradient(145deg, #1b2a49, #223b5f);
+    border-radius: 15px;
+    padding: 20px;
+    width: clamp(280px, 45%, 400px);
+    min-width: 300px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+.card h2 {
+    color: #042b41;
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+.card p {
+    color: #e0e6f1;
+    font-size: 1.1em;
+}
+/* Input and Textarea */
+input[type="file"], textarea {
+    background-color: #07182d94;
+    color: #e0e6f1;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+input[type="file"]:hover {
+    background-color: #104283
+}
+textarea {
+    resize: none;
+    padding: 10px;
+    background-color: #002147;
+    color: rgb(252, 254, 255);
+    border: none;
+    border-radius: 5px;
+    font-family: inherit;
+    transition: background-color 0.3s;
+}
+textarea:focus {
+    outline: none;
+    background-color: #072246;
+}
+#result {
+    margin-top: 20px;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+#loading {
+    display: none;
+    color: #1b98e0;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #1b2a49;
+    color: #e0e6f1;
+    animation: fadeIn 3s;
+}
+.chart-container {
+    margin-top: 30px;
+}
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap');
+/* Apply new font to body text */
+p, button, input, textarea, nav a {
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: medium;
+}
+button {
+    font-weight: 600;
+}
+/* Responsive Design Adjustments */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .header-content h1 {
+        margin: 10px 0;
+        font-size: 2em;
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .banner {
+        padding: 10vw 5vw;
+    }
+
+    .banner h2 {
+        font-size: 1.8em;
+    }
+
+    .mySlides {
+        width: 90%;
+        height: auto;
+    }
+
+    .section-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
+    }
+
+    button {
+        width: 100%;
+        padding: 15px;
+    }
+}
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes fadeInUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

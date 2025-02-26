@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Video Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <nav>
+        <img src="{{ url_for('static', filename='images/dflogo.jpg') }}" alt="Logo" class="nav-logo">
+        <a href="#home"><i class="fas fa-home"></i> Home</a>
+        <a href="#tutorial"><i class="fas fa-book"></i> Tutorial</a>
+        <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+        <a href="#feedback"><i class="fas fa-comments"></i> Feedback</a>
+    </nav>
+    
+<header>
+    <div class="header-content">
+        <h1>Deepfake Video Detection</h1>
+        <span class="slogan">Don't fake it, verify it</span>
+    </div>
+</header>
+
+<div class="banner">
+    <h2>Detect Fake Videos with Precision</h2>
+    <p>Built on Cutting-Edge AI Technology</p>
+    <div class="slideshow-container">
+        <div class="mySlides fade"><img src="{{ url_for('static', filename='images/df1.png') }}" alt="Image 1"></div>
+        <div class="mySlides fade"><img src="{{ url_for('static', filename='images/df2.png') }}" alt="Image 2"></div>
+        <div class="mySlides fade"><img src="{{ url_for('static', filename='images/df3.png') }}" alt="Image 3"></div>
+        <div class="mySlides fade"><img src="{{ url_for('static', filename='images/df4.png') }}" alt="Image 4"></div>
+        <button class="prev" onclick="plusSlides(-1)">❮</button>
+        <button class="next" onclick="plusSlides(1)">❯</button>
+        <div class="dots-container"></div>
+    </div>
+</div>
+
+</div>
+
+<section id="home" class="container">
+    <h2>Upload Your Video</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" id="file" accept="video/*" required><br><br>
+        <button type="submit">Upload and Predict</button>
+    </form>
+    <div id="loading">Processing your video, please wait...</div>
+    <div id="result"></div>
+    <div class="chart-container">
+        <canvas id="resultChart" width="400" height="200"></canvas>
+    </div>
+</section>
+<section id="tutorial" class="container">
+    <h2>How to Use</h2>
+    <p>Upload a video file to check if it contains deepfake content. The model will analyze the video and provide a confidence score indicating whether it is real or fake.</p>
+</section>
+
+<section id="about" class="container">
+    <h2>About</h2>
+    <p>This web application uses advanced deep learning techniques to detect manipulated content in videos. It helps in combating misinformation and ensuring authenticity.</p>
+</section>
+
+<section id="feedback" class="container">
+    <h2>Feedback</h2>
+    <form id="feedbackForm">
+        <input type="text" id="name" placeholder="Your Name" required><br><br>
+        <input type="email" id="email" placeholder="Your Email" required><br><br>
+        <textarea placeholder="Share your feedback here..." id="feedbackText" rows="5" style="width: 100%;" required></textarea><br><br>
+        <button type="submit">Submit Feedback</button>
+    </form>
+    <div id="feedbackResponse"></div>
+</section>
+
+ 
+<section id="contact" class="container">
+    <h2>Contact Us</h2>
+    <p>Email: support@deepfakedetection.com</p>
+    <p>Phone: +123-456-7890</p>
+</section>
+
+<footer>
+    &copy; 2025 Deepfake Detection| Umme Fathima | All Rights Reserved
+</footer>
+
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>
