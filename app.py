@@ -17,6 +17,7 @@ import gdown
 
 # Define model file path
 model_path = "best_discriminator.h5"
+tflite_model_path = "best_discriminator.tflite"
 
 # Google Drive file ID (Replace with your actual file ID)
 file_id = "1wJby5533dTnjCc0nmdS6E15R3O_nESrM"  
@@ -27,9 +28,27 @@ if not os.path.exists(model_path):
     print("Downloading model from Google Drive...")
     gdown.download(gdrive_url, model_path, quiet=False)
 
-# Load the model after downloading
-model = load_model(model_path)
-print("Model loaded successfully!")
+# Convert H5 model to TFLite if not already converted
+if not os.path.exists(tflite_model_path):
+    print("Converting model to TFLite format...")
+    import tensorflow as tf
+    model = tf.keras.models.load_model(h5_model_path)
+    converter = tf.lite.TFLiteConverter.from_keras_model(model)
+    tflite_model = converter.convert()
+
+    with open(tflite_model_path, "wb") as f:
+        f.write(tflite_model)
+
+    print("TFLite model saved!")
+
+# Load TFLite model
+def load_tflite_model():
+    interpreter = tflite.Interpreter(model_path=tflite_model_path)
+    interpreter.allocate_tensors()
+    return interpreter
+
+interpreter = load_tflite_model()
+print("TFLite model loaded successfully!")
 
 
 # Initialize Flask app
@@ -45,11 +64,15 @@ def preprocess_image(image, target_size=(224, 224)):
     return img
 
 # Function to analyze video and make predictions
+# Function to analyze video and make predictions using TFLite model
 def analyze_video(video_path):
     cap = cv2.VideoCapture(video_path)
     fake_count = 0
     real_count = 0
     total_frames = 0
+
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
 
     while cap.isOpened():
         ret, frame = cap.read()
@@ -57,10 +80,14 @@ def analyze_video(video_path):
             break
 
         image = preprocess_image(frame)
-        prediction = model.predict(image, verbose=0)
+
+        # Run inference
+        interpreter.set_tensor(input_details[0]['index'], image)
+        interpreter.invoke()
+        prediction = interpreter.get_tensor(output_details[0]['index'])
 
         total_frames += 1
-        if prediction[0][0] > 0.7:  # Ensure correct indexing
+        if prediction[0][0] > 0.7:
             fake_count += 1
         else:
             real_count += 1
