@@ -1,21 +1,18 @@
 from flask import Flask, render_template, request, jsonify
 import cv2
 import numpy as np
-from tensorflow.keras.models import load_model # type: ignore
 import os
 import mysql.connector
 from datetime import datetime
 import uuid  # For generating unique filenames
 from dotenv import load_dotenv  # For environment variables
 import gdown
-
+import tensorflow as tf  # Ensure TensorFlow is imported at the start
 
 # Load environment variables (create a .env file with DB credentials)
 load_dotenv()
 
-import gdown
-
-# Define model file path
+# Define model file paths
 model_path = "best_discriminator.h5"
 tflite_model_path = "best_discriminator.tflite"
 
@@ -25,21 +22,29 @@ gdrive_url = f"https://drive.google.com/uc?id={file_id}"
 
 # Download the model if it doesn't exist
 if not os.path.exists(model_path):
-    print("Downloading model from Google Drive...")
-    gdown.download(gdrive_url, model_path, quiet=False)
+    try:
+        print("📥 Downloading model from Google Drive...")
+        gdown.download(gdrive_url, model_path, quiet=False)
+        print("✅ Model downloaded successfully!")
+    except Exception as e:
+        print(f"❌ Error downloading model: {e}")
+        exit(1)  # Stop execution if model download fails
 
 # Convert H5 model to TFLite if not already converted
 if not os.path.exists(tflite_model_path):
-    print("Converting model to TFLite format...")
-    import tensorflow as tf
-    model = tf.keras.models.load_model(h5_model_path)
-    converter = tf.lite.TFLiteConverter.from_keras_model(model)
-    tflite_model = converter.convert()
+    try:
+        print("🔄 Converting model to TFLite format...")
+        model = tf.keras.models.load_model(model_path)  # Load H5 model
+        converter = tf.lite.TFLiteConverter.from_keras_model(model)
+        tflite_model = converter.convert()
 
-    with open(tflite_model_path, "wb") as f:
-        f.write(tflite_model)
+        with open(tflite_model_path, "wb") as f:
+            f.write(tflite_model)
 
-    print("TFLite model saved!")
+        print("✅ TFLite model saved successfully!")
+    except Exception as e:
+        print(f"❌ Error converting model to TFLite: {e}")
+        exit(1)
 
 # Load TFLite model
 def load_tflite_model():
