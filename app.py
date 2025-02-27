@@ -151,6 +151,7 @@ def get_db_connection():
         host=os.getenv("DB_HOST"),
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
+        port=int(os.getenv("DB_PORT")),
         database=os.getenv("DB_NAME")
     )
 
@@ -177,4 +178,8 @@ def save_feedback():
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))  # Get PORT from environment
+
     app.run(host="0.0.0.0", port=port)
+
+    app.run(host="0.0.0.0", port=port)
+
